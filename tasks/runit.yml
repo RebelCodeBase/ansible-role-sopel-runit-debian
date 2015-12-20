@@ -6,6 +6,8 @@
 # this user will run the bot
 - name: add bot user
   user: name={{ pname }}
+        createhome=yes
+        home={{ homedir }}
         shell=/bin/false
 
 # this user will run the runit-logger

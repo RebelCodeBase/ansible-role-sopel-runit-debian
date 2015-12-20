@@ -34,7 +34,7 @@
   become_user: '{{ pname }}'
   when: check_git_user_email.stdout == ''
 
-- name: check if configfile is added
+- name: check git status of configfile
   command: git status {{ configfile }}
            chdir={{ configdir }}
            removes={{ configdir }}/{{ configfile }}
@@ -47,9 +47,9 @@
            chdir={{ configdir }}
            removes={{ configdir }}/{{ configfile }}
   become_user: '{{ pname }}'
-  when: git_status.stdout.find('Untracked files') != -1
+  when: "git_status.stdout.find('modified:   default.cfg') != -1"
 
-- name: check if configfile is added
+- name: check git status of configfile
   command: git status {{ configfile }}
            chdir={{ configdir }}
            removes={{ configdir }}/{{ configfile }}
@@ -62,4 +62,4 @@
            chdir={{ configdir }}
            removes={{ configdir }}/{{ configfile }}
   become_user: '{{ pname }}'
-  when: git_status.stdout.find('Changes to be committed') != -1
+  when: "git_status.stdout.find('modified:   default.cfg') != -1"

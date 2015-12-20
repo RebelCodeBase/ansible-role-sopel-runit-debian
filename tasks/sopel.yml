@@ -16,12 +16,15 @@
   with_items:
     - '{{ botdir }}'
     - '{{ moddir }}'
+    - '{{ configdir }}'
     - '{{ custommoddir }}'
 
 - name: checkout sopel from github
   git: repo=https://github.com/sopel-irc/sopel.git
        dest={{ botdir }}
        accept_hostkey=yes
+  become_user: '{{ pname }}'
+  notify: restart sopel
 
 - name: make sopel.py executable
   file: path={{ botdir }}/sopel.py
@@ -33,6 +36,8 @@
   git: repo=https://github.com/rebelcodebase/sopel-rss.git
        dest={{ moddir }}/sopel-rss
        accept_hostkey=yes
+  become_user: '{{ pname }}'
+  notify: restart sopel
 
 - name: link from custom module directory to rss.py
   file: dest={{ custommoddir }}/rss.py
