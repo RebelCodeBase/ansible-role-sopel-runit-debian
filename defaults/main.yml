@@ -29,7 +29,7 @@ configfile: default.cfg
 env_lang: en_US.UTF-8
 
 # bot variables
-auth_username: 'sopel'
+auth_username: ''
 auth_password: ''
 auth_method: 'nickserv'
 channels: '#sopel-test-channel'
