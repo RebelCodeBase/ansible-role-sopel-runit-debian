@@ -1,7 +1,7 @@
 ansible-role-sopel-runit-debian
 =========
 
-Ansible role which deploys the [sopel](https://github.com/sopel-irc/sopel) irc bot monitored by [runit](http://smarden.org/runit/] to a debian box. The motivation for this role was the new implementation of the [sopel-rss](https://github.com/RebelCodeBase/sopel-rss) rss2irc module.
+Ansible role which deploys the [sopel](https://github.com/sopel-irc/sopel) irc bot monitored by [runit](http://smarden.org/runit/) to a debian box. The motivation for this role was the new implementation of the [sopel-rss](https://github.com/RebelCodeBase/sopel-rss) rss2irc module.
 
 Role Variables
 --------------
