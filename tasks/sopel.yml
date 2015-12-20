@@ -44,6 +44,9 @@
         src={{ moddir }}/sopel-rss/rss.py
         state=link
 
+- name: stop runit sopel
+  command: sv stop sopel
+
 - include: sopel-git-commit-config.yml
   tags: config
 
@@ -53,8 +56,10 @@
             owner={{ pname }}
             group={{ pname }}
             mode=0644
-  notify: restart sopel
   tags: config
 
 - include: sopel-git-commit-config.yml
   tags: config
+
+- name: start runit sopel
+  command: sv start sopel
