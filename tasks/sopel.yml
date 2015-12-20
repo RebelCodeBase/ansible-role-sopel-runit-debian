@@ -45,6 +45,7 @@
         state=link
 
 - include: sopel-git-commit-config.yml
+  tags: config
 
 - name: create config
   template: dest={{ configdir }}/{{ configfile }}
@@ -53,5 +54,7 @@
             group={{ pname }}
             mode=0644
   notify: restart sopel
+  tags: config
 
 - include: sopel-git-commit-config.yml
+  tags: config

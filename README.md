@@ -72,3 +72,8 @@ License
 -------
 
 MIT
+
+TODO
+----
+
+Runit should be stopped before a new config is pushed and started afterwards. At the moment the config file might not be applied as sopel is still active when the config is written by ansible.
