@@ -1,0 +1,52 @@
+---
+- name: install necessary packages for sopel
+  apt: name={{ item }}
+       state=present
+  with_items:
+    - git
+    - python3
+    - ipython3
+    - python3-feedparser
+
+- name: make directories
+  file: path={{ item }}
+        state=directory
+        owner={{ pname }}
+        group={{ pname }}
+  with_items:
+    - '{{ botdir }}'
+    - '{{ moddir }}'
+    - '{{ custommoddir }}'
+
+- name: checkout sopel from github
+  git: repo=https://github.com/sopel-irc/sopel.git
+       dest={{ botdir }}
+       accept_hostkey=yes
+
+- name: make sopel.py executable
+  file: path={{ botdir }}/sopel.py
+        owner={{ pname }}
+        group={{ pname }}
+        mode=0744
+
+- name: checkout sopel-rss from github
+  git: repo=https://github.com/rebelcodebase/sopel-rss.git
+       dest={{ moddir }}/sopel-rss
+       accept_hostkey=yes
+
+- name: link from custom module directory to rss.py
+  file: dest={{ custommoddir }}/rss.py
+        src={{ moddir }}/sopel-rss/rss.py
+        state=link
+
+- include: sopel-git-commit-config.yml
+
+- name: create config
+  template: dest={{ configdir }}/{{ configfile }}
+            src=default.cfg.j2
+            owner={{ pname }}
+            group={{ pname }}
+            mode=0644
+  notify: restart sopel
+
+- include: sopel-git-commit-config.yml

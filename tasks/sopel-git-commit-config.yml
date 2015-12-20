@@ -1,0 +1,65 @@
+- name: git init configdir
+  command: git init
+           chdir={{ configdir }}
+           creates={{ configdir }}/.git
+  become_user: '{{ pname }}'
+
+- name: check if git user name is set
+  command: git config user.name
+           chdir={{ configdir }}
+  ignore_errors: True
+  failed_when: False
+  changed_when: False
+  register: check_git_user_name
+  become_user: '{{ pname }}'
+
+- name: git set user name
+  command: git config user.name "{{ pname }}"
+           chdir={{ configdir }}
+  become_user: '{{ pname }}'
+  when: check_git_user_name.stdout == ''
+
+- name: check if git user email is set
+  command: git config user.email
+           chdir={{ configdir }}
+  ignore_errors: True
+  failed_when: False
+  changed_when: False
+  register: check_git_user_email
+  become_user: '{{ pname }}'
+
+- name: git set user email
+  command: git config user.email '{{ pname }}'@'{{ ansible_fqdn }}'
+           chdir={{ configdir }}
+  become_user: '{{ pname }}'
+  when: check_git_user_email.stdout == ''
+
+- name: check if configfile is added
+  command: git status {{ configfile }}
+           chdir={{ configdir }}
+           removes={{ configdir }}/{{ configfile }}
+  changed_when: False
+  become_user: '{{ pname }}'
+  register: git_status
+
+- name: git add configfile
+  command: git add {{ configfile }}
+           chdir={{ configdir }}
+           removes={{ configdir }}/{{ configfile }}
+  become_user: '{{ pname }}'
+  when: git_status.stdout.find('Untracked files') != -1
+
+- name: check if configfile is added
+  command: git status {{ configfile }}
+           chdir={{ configdir }}
+           removes={{ configdir }}/{{ configfile }}
+  changed_when: False
+  become_user: '{{ pname }}'
+  register: git_status
+
+- name: git commit configfile
+  command: git commit --message='[Ansible] commit config file'
+           chdir={{ configdir }}
+           removes={{ configdir }}/{{ configfile }}
+  become_user: '{{ pname }}'
+  when: git_status.stdout.find('Changes to be committed') != -1

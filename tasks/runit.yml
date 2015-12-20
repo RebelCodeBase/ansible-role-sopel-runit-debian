@@ -1,0 +1,80 @@
+---
+- name: install runit
+  apt: name=runit
+       state=present
+
+# this user will run the bot
+- name: add bot user
+  user: name={{ pname }}
+        shell=/bin/false
+
+# this user will run the runit-logger
+- name: add log user
+  user: name={{ pname }}-log
+        shell=/bin/false
+        createhome=no
+
+- name: create runit directories
+  file: path={{ item }}
+        state=directory
+  with_items:
+    - '/etc/sv/{{ pname }}/env'
+    - '/etc/sv/{{ pname }}/log'
+    - '/var/run/sv.{{ pname }}'
+    - '/var/run/sv.{{ pname }}-log'
+  notify: restart sopel
+
+- name: set correct owner of log dir
+  file: path='/var/log/sv.{{ pname }}-log'
+        state=directory
+        owner='{{ pname }}-log'
+        group='{{ pname }}-log'
+  notify: restart sopel
+
+- name: create symbolic links
+  file: dest={{ item.dest }}
+        src={{ item.src }}
+        state=link
+  with_items:
+    - { src: '/run/sv.{{ pname }}', dest: '/etc/sv/{{ pname }}/supervise' }
+    - { src: '/run/sv.{{ pname }}-log', dest: '/etc/sv/{{ pname }}/log/supervise' }
+    - { src: '/var/log/sv.{{ pname }}-log', dest: '/etc/sv/{{ pname }}/log/main' }
+  notify: restart sopel
+
+- name: copy runit run file
+  template: dest='/etc/sv/{{ pname }}/run'
+            src=run.j2
+            owner=root
+            group=root
+            mode=0744
+  notify: restart sopel
+
+- name: copy runit environment language file
+  template: dest='/etc/sv/{{ pname }}/env/LANG'
+            src=LANG.j2
+            owner=root
+            group=root
+            mode=0644
+  notify: restart sopel
+
+- name: copy runit environment config file
+  template: dest='/etc/sv/{{ pname }}/env/CONFIG'
+            src=CONFIG.j2
+            owner=root
+            group=root
+            mode=0644
+  notify: restart sopel
+
+- name: copy run log file
+  template: dest='/etc/sv/{{ pname }}/log/run'
+            src=run-log.j2
+            owner=root
+            group=root
+            mode=0744
+  notify: restart sopel
+
+- name: start/stop the bot
+  file: dest=/etc/service/{{ pname }}
+        src=/etc/sv/{{ pname }}
+        state={{ status }}
+  notify: restart sopel

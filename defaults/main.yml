@@ -1,0 +1,49 @@
+---
+# defaults file for ansible-role-sopel-debian-runit
+
+# program name
+pname: sopel
+
+# status of bot: start: 'link', stop: 'absent'
+status: link
+
+# home directory
+homedir: '/home/{{ pname }}'
+
+# bot directory
+botdir: '{{ homedir }}/sopel'
+
+# module directory
+moddir: '{{ homedir }}/modules'
+
+# configuration directory
+configdir: '{{ homedir }}/.sopel'
+
+# configuration module directory
+custommoddir: '{{ configdir }}/modules'
+
+# configuration file
+configfile: default.cfg
+
+# runit environment language
+env_lang: en_US.UTF-8
+
+# bot variables
+auth_username: 'sopel'
+auth_password: ''
+auth_method: 'nickserv'
+channels: '#test-sopel-irc'
+default_timezone: ''
+enable: ''
+exclude: ''
+host: 'chat.freenode.net'
+log_raw: 'True'
+logging_level: 'INFO'
+nick: 'sopel'
+nick_blocks: ''
+owner: 'sopel-owner'
+port: '6667'
+prefix: '.'
+use_ssl: 'True'
+user: 'sopel'
+verbose: 'verbose'

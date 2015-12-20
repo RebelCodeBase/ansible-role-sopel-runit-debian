@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+exec 2>&1
+exec /usr/bin/chpst -e ./env -u {{ pname }} /usr/bin/env sh -c '
+  exec {{ botdir }}/sopel.py --config "$CONFIG"
+'

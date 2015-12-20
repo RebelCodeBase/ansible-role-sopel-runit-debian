@@ -1,0 +1,4 @@
+---
+# handlers file for ansible-role-sopel-debian-runit
+- name: restart sopel
+  command: 'sv restart sopel'
