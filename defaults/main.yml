@@ -1,6 +1,4 @@
 ---
-# defaults file for ansible-role-sopel-debian-runit
-
 # program name
 pname: sopel
 

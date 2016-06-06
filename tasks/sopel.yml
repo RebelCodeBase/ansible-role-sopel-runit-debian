@@ -25,12 +25,14 @@
        accept_hostkey=yes
   become_user: '{{ pname }}'
   notify: restart sopel
+  tags: sopel-irc
 
 - name: make sopel.py executable
   file: path={{ botdir }}/sopel.py
         owner={{ pname }}
         group={{ pname }}
         mode=0744
+  tags: sopel-irc
 
 - name: checkout sopel-rss from github
   git: repo=https://github.com/rebelcodebase/sopel-rss.git
@@ -38,6 +40,7 @@
        accept_hostkey=yes
   become_user: '{{ pname }}'
   notify: restart sopel
+  tags: sopel-rss
 
 - name: link from custom module directory to rss.py
   file: dest={{ custommoddir }}/rss.py
@@ -46,6 +49,7 @@
 
 - name: stop runit sopel
   command: sv stop sopel
+  tags: config
 
 - include: sopel-git-commit-config.yml
   tags: config
@@ -63,3 +67,4 @@
 
 - name: start runit sopel
   command: sv start sopel
+  tags: config
