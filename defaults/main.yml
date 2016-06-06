@@ -6,19 +6,19 @@ pname: sopel
 status: link
 
 # home directory
-homedir: '/home/{{ pname }}'
+homedir: "/home/{{ pname }}"
 
 # bot directory
-botdir: '{{ homedir }}/sopel'
+botdir: "{{ homedir }}/sopel"
 
 # module directory
-moddir: '{{ homedir }}/modules'
+moddir: "{{ homedir }}/modules"
 
 # configuration directory
-configdir: '{{ homedir }}/.sopel'
+configdir: "{{ homedir }}/.sopel"
 
 # configuration module directory
-custommoddir: '{{ configdir }}/modules'
+custommoddir: "{{ configdir }}/modules"
 
 # configuration file
 configfile: default.cfg

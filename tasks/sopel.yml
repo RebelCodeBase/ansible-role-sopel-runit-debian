@@ -1,7 +1,8 @@
 ---
 - name: install necessary packages for sopel
-  apt: name={{ item }}
-       state=present
+  apt:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - git
     - python3
@@ -9,43 +10,48 @@
     - python3-feedparser
 
 - name: make directories
-  file: path={{ item }}
-        state=directory
-        owner={{ pname }}
-        group={{ pname }}
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ pname }}"
+    group: "{{ pname }}"
   with_items:
-    - '{{ botdir }}'
-    - '{{ moddir }}'
-    - '{{ configdir }}'
-    - '{{ custommoddir }}'
+    - "{{ botdir }}"
+    - "{{ moddir }}"
+    - "{{ configdir }}"
+    - "{{ custommoddir }}"
 
 - name: checkout sopel from github
-  git: repo=https://github.com/sopel-irc/sopel.git
-       dest={{ botdir }}
-       accept_hostkey=yes
+  git:
+    repo: https://github.com/sopel-irc/sopel.git
+    dest: "{{ botdir }}"
+    accept_hostkey: yes
   become_user: '{{ pname }}'
   notify: restart sopel
   tags: sopel-irc
 
 - name: make sopel.py executable
-  file: path={{ botdir }}/sopel.py
-        owner={{ pname }}
-        group={{ pname }}
-        mode=0744
+  file:
+    path: "{{ botdir }}/sopel.py"
+    owner: "{{ pname }}"
+    group: "{{ pname }}"
+    mode: 0744
   tags: sopel-irc
 
 - name: checkout sopel-rss from github
-  git: repo=https://github.com/rebelcodebase/sopel-rss.git
-       dest={{ moddir }}/sopel-rss
-       accept_hostkey=yes
-  become_user: '{{ pname }}'
+  git:
+    repo: https://github.com/rebelcodebase/sopel-rss.git
+    dest: "{{ moddir }}/sopel-rss"
+    accept_hostkey: yes
+  become_user: "{{ pname }}"
   notify: restart sopel
   tags: sopel-rss
 
 - name: link from custom module directory to rss.py
-  file: dest={{ custommoddir }}/rss.py
-        src={{ moddir }}/sopel-rss/rss.py
-        state=link
+  file:
+    dest: "{{ custommoddir }}/rss.py"
+    src: "{{ moddir }}/sopel-rss/rss.py"
+    state: link
 
 - name: stop runit sopel
   command: sv stop sopel
@@ -55,11 +61,12 @@
   tags: config
 
 - name: create config
-  template: dest={{ configdir }}/{{ configfile }}
-            src=default.cfg.j2
-            owner={{ pname }}
-            group={{ pname }}
-            mode=0644
+  template:
+    dest: "{{ configdir }}/{{ configfile }}"
+    src: default.cfg.j2
+    owner: "{{ pname }}"
+    group: "{{ pname }}"
+    mode: 0644
   tags: config
 
 - include: sopel-git-commit-config.yml
