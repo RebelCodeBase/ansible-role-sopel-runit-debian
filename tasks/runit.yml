@@ -4,6 +4,13 @@
     name: runit
     state: latest
 
+# register /bin/false as valid login shell
+- name: add /bin/false to /etc/shells
+  lineinfile:
+    dest: /etc/shells
+    regexp: /^\/bin\/false/
+    line: /bin/false
+
 # this user will run the bot
 - name: add bot user
   user:
