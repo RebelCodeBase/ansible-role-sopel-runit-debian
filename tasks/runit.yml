@@ -8,8 +8,9 @@
 - name: add /bin/false to /etc/shells
   lineinfile:
     dest: /etc/shells
-    regexp: /^\/bin\/false/
+    regexp: /^\/bin\/false$/
     line: /bin/false
+    backrefs: yes
 
 # this user will run the bot
 - name: add bot user
