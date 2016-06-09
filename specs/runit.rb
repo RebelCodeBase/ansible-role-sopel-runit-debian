@@ -31,10 +31,10 @@ describe user "#{pname}-log" do
 end
 
 dirs = [
-  "/etc/sv/#{pname}/env",
-  "/etc/sv/#{pname}/log",
-  "/var/run/sv.#{pname}",
-  "/var/run/sv.#{pname}-log" ]
+    "/etc/sv/#{pname}/env",
+    "/etc/sv/#{pname}/log",
+    "/var/run/sv.#{pname}",
+    "/var/run/sv.#{pname}-log" ]
 
 dirs.each do | dir |
   describe file dir do
@@ -49,10 +49,10 @@ describe file "/var/log/sv.#{pname}-log" do
 end
 
 symlinks = {
-  "/etc/sv/#{pname}/supervise" => "/run/sv.#{pname}",
-  "/etc/sv/#{pname}/log/supervise" => "/run/sv.#{pname}-log",
-  "/etc/sv/#{pname}/log/main" => "/var/log/sv.#{pname}-log",
-  "/etc/service/#{pname}" => "/etc/sv/#{pname}" }
+    "/etc/sv/#{pname}/supervise" => "/run/sv.#{pname}",
+    "/etc/sv/#{pname}/log/supervise" => "/run/sv.#{pname}-log",
+    "/etc/sv/#{pname}/log/main" => "/var/log/sv.#{pname}-log",
+    "/etc/service/#{pname}" => "/etc/sv/#{pname}" }
 
 symlinks.each do | dest, src |
   describe file dest do
@@ -63,8 +63,8 @@ symlinks.each do | dest, src |
 end
 
 runfiles = [
-  "/etc/sv/#{pname}/run",
-  "/etc/sv/#{pname}/log/run" ]
+    "/etc/sv/#{pname}/run",
+    "/etc/sv/#{pname}/log/run" ]
 
 runfiles.each do | runfile |
   describe file runfile do
@@ -77,8 +77,8 @@ runfiles.each do | runfile |
 end
 
 envfiles = [
-  "/etc/sv/#{pname}/env/LANG",
-  "/etc/sv/#{pname}/env/CONFIG" ]
+    "/etc/sv/#{pname}/env/LANG",
+    "/etc/sv/#{pname}/env/CONFIG" ]
 
 envfiles.each do | envfile |
   describe file envfile do
