@@ -52,26 +52,14 @@
     dest: "{{ custommoddir }}/rss.py"
     src: "{{ moddir }}/sopel-rss/rss.py"
     state: link
+  tags: sopel-rss
 
-- name: stop runit sopel
-  command: sv stop sopel
-  tags: config
+- name: check if config file exists
+  stat:
+    path: "{{ configdir }}/{{ configfile }}"
+  register: sopelconfig
 
-- include: sopel-git.yml
-  tags: config
-
-- name: create config
-  template:
-    dest: "{{ configdir }}/{{ configfile }}"
-    src: default.cfg.j2
-    owner: "{{ pname }}"
-    group: "{{ pname }}"
-    mode: 0644
-  tags: config
-
-- include: sopel-git.yml
-  tags: config
-
-- name: start runit sopel
-  command: sv start sopel
-  tags: config
+- name: deploy config file
+  include: sopel-config.yml
+  when: "not {{ sopelconfig.stat.exists }}"
+  tags: sopel-config

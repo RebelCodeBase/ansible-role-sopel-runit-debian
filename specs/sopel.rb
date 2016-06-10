@@ -57,11 +57,3 @@ describe file "#{custommoddir}/rss.py" do
   it { should be_symlink }
   it { should be_linked_to "#{moddir}/sopel-rss/rss.py" }
 end
-
-describe file "#{configdir}/#{configfile}" do
-  it { should exist }
-  it { should be_file }
-  it { should be_owned_by "#{pname}" }
-  it { should be_grouped_into "#{pname}" }
-  it { should be_mode 644 }
-end
