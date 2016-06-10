@@ -12,10 +12,6 @@ describe file '/bin/false' do
   it { should be_executable }
 end
 
-describe file '/etc/shells' do
-  its(:content) { should match '/bin/false' }
-end
-
 describe user "#{pname}" do
   it { should exist }
   it { should belong_to_group "#{pname}" }

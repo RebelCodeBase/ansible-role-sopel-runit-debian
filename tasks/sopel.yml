@@ -57,7 +57,7 @@
   command: sv stop sopel
   tags: config
 
-- include: sopel-git-commit-config.yml
+- include: sopel-git.yml
   tags: config
 
 - name: create config
@@ -69,7 +69,7 @@
     mode: 0644
   tags: config
 
-- include: sopel-git-commit-config.yml
+- include: sopel-git.yml
   tags: config
 
 - name: start runit sopel

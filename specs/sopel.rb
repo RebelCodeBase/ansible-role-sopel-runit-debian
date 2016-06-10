@@ -1,13 +1,5 @@
 require 'spec_helper'
 
-packages = %w( git python3 ipython3 python3-feedparser )
-
-packages.each do | package |
-  describe package package do
-    it { should be_installed }
-  end
-end
-
 pname = 'sopel'
 homedir = "/home/#{pname}"
 botdir = "#{homedir}/sopel"
@@ -15,6 +7,14 @@ moddir = "#{homedir}/modules"
 configdir = "#{homedir}/.sopel"
 custommoddir = "#{configdir}/modules"
 configfile = 'default.cfg'
+
+packages = %w( git python3 ipython3 python3-feedparser )
+
+packages.each do | package |
+  describe package package do
+    it { should be_installed }
+  end
+end
 
 dirs = [ homedir, botdir, moddir, configdir, custommoddir ]
 
