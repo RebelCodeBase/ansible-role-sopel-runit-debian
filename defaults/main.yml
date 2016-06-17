@@ -26,6 +26,9 @@ configfile: default.cfg
 # runit environment language
 env_lang: en_US.UTF-8
 
+# install rss module?
+rss: true
+
 # bot variables
 auth_username: ''
 auth_password: ''

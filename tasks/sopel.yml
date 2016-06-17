@@ -44,6 +44,7 @@
     dest: "{{ moddir }}/sopel-rss"
     accept_hostkey: yes
   become_user: "{{ pname }}"
+  when: rss
   notify: restart sopel
   tags: sopel-rss
 
@@ -52,6 +53,7 @@
     dest: "{{ custommoddir }}/rss.py"
     src: "{{ moddir }}/sopel-rss/rss.py"
     state: link
+  when: rss
   tags: sopel-rss
 
 - name: check if config file exists
