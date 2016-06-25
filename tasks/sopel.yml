@@ -61,7 +61,24 @@
     path: "{{ configdir }}/{{ configfile }}"
   register: sopelconfig
 
-- name: deploy config file
-  include: sopel-config.yml
+- include: sopel-git.yml
+  when: "{{ sopelconfig.stat.exists }}"
+  tags: sopel-rss
+
+- name: copy config
+  template:
+    dest: "{{ configdir }}/{{ configfile }}"
+    src: default.cfg.j2
+    owner: "{{ pname }}"
+    group: "{{ pname }}"
+    mode: 0644
   when: "not {{ sopelconfig.stat.exists }}"
-  tags: sopel-config
+  tags: sopel-rss
+
+- name: start runit sopel
+  command: sv start sopel
+  when: "not {{ sopelconfig.stat.exists }}"
+  tags: sopel-rss
+
+- include: sopel-git.yml
+  tags: sopel-rss

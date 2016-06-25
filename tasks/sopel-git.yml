@@ -1,0 +1,54 @@
+- name: git init configdir
+  command: git init
+  args:
+    chdir: "{{ configdir }}"
+    creates: "{{ configdir }}/.git"
+  register: git_init
+  become_user: "{{ pname }}"
+
+- name: check if git user name is set
+  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.name"
+  ignore_errors: True
+  failed_when: False
+  changed_when: False
+  register: check_git_user_name
+  become_user: "{{ pname }}"
+
+- name: git set user name
+  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.name {{ pname }}"
+  become_user: '{{ pname }}'
+  when: check_git_user_name.stdout == ''
+
+- name: check if git user email is set
+  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.email"
+  ignore_errors: True
+  failed_when: False
+  changed_when: False
+  register: check_git_user_email
+  become_user: "{{ pname }}"
+
+- name: git set user email
+  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.email {{ pname }}@{{ ansible_fqdn }}"
+  become_user: '{{ pname }}'
+  when: check_git_user_email.stdout == ''
+
+- name: git create initial commit
+  shell: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} add {{ configfile }}; git commit --message='[Ansible] Initial commit'"
+  args:
+    chdir: "{{ configdir }}"
+  become_user: "{{ pname }}"
+  when: "git_init.stdout.find('skipped') == -1"
+
+- name: check git status of configfile
+  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} status --porcelain {{ configfile }}"
+  args:
+    chdir: "{{ configdir }}"
+    removes: "{{ configdir }}/{{ configfile }}"
+  changed_when: False
+  become_user: "{{ pname }}"
+  register: git_status
+
+- name: git create commit
+  shell: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} add {{ configfile }}; git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} commit --message='[Ansible] commit config file'"
+  become_user: "{{ pname }}"
+  when: "git_status.stdout.find('M default.cfg') != -1"
