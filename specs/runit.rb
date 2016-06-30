@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 pname = 'sopel';
 
 describe package 'runit' do

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 pname = 'sopel'
 homedir = "/home/#{pname}"
 configdir = "#{homedir}/.sopel"
