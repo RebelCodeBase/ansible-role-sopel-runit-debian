@@ -68,6 +68,11 @@ Example Playbook
     - role: ansible-role-sopel-runit-debian
 ```
 
+Configuration
+-------------
+
+You should add *--require spec_helper* to *.rspec*.
+
 License
 -------
 
