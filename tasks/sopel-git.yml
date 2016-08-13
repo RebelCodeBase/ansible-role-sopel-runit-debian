@@ -6,31 +6,21 @@
   register: git_init
   become_user: "{{ pname }}"
 
-- name: check if git user name is set
-  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.name"
-  ignore_errors: True
-  failed_when: False
-  changed_when: False
-  register: check_git_user_name
-  become_user: "{{ pname }}"
-
 - name: git set user name
-  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.name {{ pname }}"
+  git_config:
+    name: user.name
+    value: "{{ pname }}"
+    scope: local
+    repo: "{{ configdir }}"
   become_user: "{{ pname }}"
-  when: check_git_user_name.stdout == ''
-
-- name: check if git user email is set
-  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.email"
-  ignore_errors: True
-  failed_when: False
-  changed_when: False
-  register: check_git_user_email
-  become_user: "{{ pname }}"
 
 - name: git set user email
-  command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.email {{ pname }}@{{ ansible_fqdn }}"
+  git_config:
+    name: user.email
+    value: "{{ pname }}@{{ ansible_fqdn }}"
+    scope: local
+    repo: "{{ configdir }}"
   become_user: "{{ pname }}"
-  when: check_git_user_email.stdout == ''
 
 - name: git create initial commit
   shell: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} add {{ configfile }}; git commit --message='[Ansible] Initial commit'"
