@@ -27,7 +27,7 @@ end
 
 git_remote_botdir = "git --git-dir=#{botdir}/.git remote --verbose | grep fetch | cut -d ' ' -f 1 | cut -f 2"
 describe "Git remote \"#{botdir}/.git\"" do
-  it 'should be https://github.com/sopel-irc/sopel.git' do
+  it 'should be https://github.com/f4bio/sopel-rss.git' do
     sopel_git_remote_botdir = command(git_remote_botdir).stdout.chomp
     expect(sopel_git_remote_botdir).to eq 'https://github.com/sopel-irc/sopel.git'
   end
