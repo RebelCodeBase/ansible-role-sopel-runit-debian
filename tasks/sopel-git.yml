@@ -16,7 +16,7 @@
 
 - name: git set user name
   command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.name {{ pname }}"
-  become_user: '{{ pname }}'
+  become_user: "{{ pname }}"
   when: check_git_user_name.stdout == ''
 
 - name: check if git user email is set
@@ -29,7 +29,7 @@
 
 - name: git set user email
   command: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} config user.email {{ pname }}@{{ ansible_fqdn }}"
-  become_user: '{{ pname }}'
+  become_user: "{{ pname }}"
   when: check_git_user_email.stdout == ''
 
 - name: git create initial commit
