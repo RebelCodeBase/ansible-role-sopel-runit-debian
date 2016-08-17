@@ -46,7 +46,7 @@ git_remote_rssdir = "git --git-dir=#{moddir}/sopel-rss/.git remote --verbose | g
 describe "Git remote \"#{moddir}/sopel-rss/.git\"" do
   it 'should be https://github.com/f4bio/sopel-rss.git' do
     sopel_git_remote_rssdir = command(git_remote_rssdir).stdout.chomp
-    expect(sopel_git_remote_rssdir).to eq 'https://github.com/rebelcodebase/sopel-rss.git'
+    expect(sopel_git_remote_rssdir).to eq 'https://github.com/f4bio/sopel-rss.git'
   end
 end
 
