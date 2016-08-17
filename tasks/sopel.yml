@@ -40,7 +40,7 @@
 
 - name: checkout sopel-rss from github
   git:
-    repo: https://github.com/rebelcodebase/sopel-rss.git
+    repo: https://github.com/f4bio/sopel-rss.git
     dest: "{{ moddir }}/sopel-rss"
     accept_hostkey: yes
   become_user: "{{ pname }}"
