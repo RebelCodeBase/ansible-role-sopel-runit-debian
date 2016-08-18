@@ -1,8 +1,17 @@
 pname = 'sopel'
 homedir = "/home/#{pname}"
 configdir = "#{homedir}/.sopel"
-
+configfile = 'default.cfg'
 host = ENV['TARGET_HOST']
+
+describe file "#{configdir}/.gitignore" do
+  it { should exist }
+  it { should be_file }
+  it { should be_owned_by "#{pname}" }
+  it { should be_grouped_into "#{pname}" }
+  it { should be_mode 644 }
+  its(:sha256sum) { should eq '0c67b5199b73196ac598296712b72a3b09ab79e3ea2086e7788a526f7ecb90a6' }
+end
 
 git_status_configdir = "git --git-dir=#{configdir}/.git status"
 describe "Directory \"#{configdir}/.git\"" do

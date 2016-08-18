@@ -22,6 +22,13 @@
     repo: "{{ configdir }}"
   become_user: "{{ pname }}"
 
+- name: copy .gitignore
+  template:
+    src: gitignore.j2
+    dest: "{{ configdir }}/.gitignore"
+    mode: 0644
+  become_user: "{{ pname }}"
+
 - name: git create initial commit
   shell: "git --git-dir {{ configdir }}/.git --work-tree {{ configdir }} add {{ configfile }}; git commit --message='[Ansible] Initial commit'"
   args:
