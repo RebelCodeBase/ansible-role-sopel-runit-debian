@@ -42,6 +42,7 @@
   git:
     repo: https://github.com/f4bio/sopel-rss.git
     dest: "{{ moddir }}/sopel-rss"
+    version: master
     accept_hostkey: yes
   become_user: "{{ pname }}"
   when: rss
@@ -60,6 +61,7 @@
   stat:
     path: "{{ configdir }}/{{ configfile }}"
   register: sopelconfig
+  tags: sopel-rss
 
 - include: sopel-git.yml
   when: "{{ sopelconfig.stat.exists }}"

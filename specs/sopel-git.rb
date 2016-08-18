@@ -10,7 +10,7 @@ describe file "#{configdir}/.gitignore" do
   it { should be_owned_by "#{pname}" }
   it { should be_grouped_into "#{pname}" }
   it { should be_mode 644 }
-  its(:sha256sum) { should eq '0c67b5199b73196ac598296712b72a3b09ab79e3ea2086e7788a526f7ecb90a6' }
+  its(:sha256sum) { should eq 'fc147e236fac279b45679ce502225f922fd60fc2b7fc4783ab2a3c4849d78f25' }
 end
 
 git_status_configdir = "git --git-dir=#{configdir}/.git status"
