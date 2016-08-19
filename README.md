@@ -15,19 +15,19 @@ Role Variables
   * Defaults to link
 
 * homedir: home directory of the bot user <pname>
-  * Defaults to /home/<pname>
+  * Defaults to /home/\<pname\>
 
 * botdir: bot directory
-  * Defaults to <homedir>/sopel
+  * Defaults to \<homedir\>/sopel
 
 * moddir: module directory
-  * Defaults to <homedir>/modules
+  * Defaults to \<homedir\>/modules
 
 * configdir: configuration directory
-  * Defauts to <homedir>/.sopel
+  * Defauts to \<homedir\>/.sopel
 
 * custommoddir: configuration module directory
-  * Defaults to <configdir>/modules
+  * Defaults to \<configdir\>/modules
 
 * configfile: configuration file
   * Defaults to default.cfg
