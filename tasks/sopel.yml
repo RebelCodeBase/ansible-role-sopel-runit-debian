@@ -8,6 +8,7 @@
     - python3
     - ipython3
     - python3-feedparser
+    - python3-requests
 
 - name: make directories
   file:
